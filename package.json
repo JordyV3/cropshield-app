@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1400.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",

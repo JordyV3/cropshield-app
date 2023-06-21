@@ -2,6 +2,7 @@ extends ../layout/app
 
 block styles
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+    link(rel="stylesheet", href="/css/styles.css")
 
 
 block contenido
@@ -9,6 +10,7 @@ block contenido
     //- pre= JSON.stringify(propiedad, undefined, 2)
 
     div(class="py-5")
+
         h1( id="titulo" class="text-4xl my-10 font-extrabold text-center")= analisis.titulo
 
         div
@@ -17,44 +19,43 @@ block contenido
 
         div(class="mt-5 md:flex md:gap-4 md:items-start")
             div(class="md:w-2/3 bg-white shadow rounded-lg") 
-                img(src=`/uploads/${analisis.imagen}` alt=`imagen del cultivo ${analisis.titulo}`)
+                div(class="px-5 py-10 space-y-5 containerPreview")
+                    img(src=`/uploads/${analisis.imagen}` class="imagen-preview" id="imgUpload" alt=`imagen del cultivo ${analisis.titulo}`)
 
                 div(class="px-5 py-10 space-y-5")
 
                     h2(class="text-2xl leading-6 font-bold text-gray-900") Información Analisis
 
-                    p(class="text-gray-400 text-lg")= analisis.descripcion
-
-                    p(class="text-gray-400")= formatearFecha(analisis.createdAt)
+                    p(class="text-black-300 text-ls")= analisis.descripcion
 
                     div(class="grid grid-cols-1 md:grid-cols-2")
 
-                        p(class="text-gray-600 font-bold text-lg") Cultivo
+                        p(class="text-gray-800 font-bold text-lg") Cultivo
                             span(class="text-gray-800 block text-xs")= analisis.cultivo.nombre
-
-                        p(class="text-gray-600 font-bold text-lg") Presencia de Trips
-                            span(class="text-gray-800 block text-xs")= analisis.trips
-
                             br
-
+                        p(class="text-gray-800 font-bold text-lg") Fecha
+                            span(class="text-gray-800 block text-xs")= formatearFecha(analisis.createdAt)
+                            br
                         p(class="text-gray-800 font-bold text-lg") Observaciones
                             span(class="text-gray-600 block text-xs")= analisis.observaciones
 
-                        p(class="text-gray-600 font-bold text-lg") Temperatura grados
-                            span(class="text-gray-800 block text-xs")= analisis.clima
-
+                        p(class="text-gray-800 font-bold text-lg") Temperatura grados
+                            span(class="text-gray-800 block text-xs")= analisis.temperatura + "°C"
                             br
 
-                        p(class="text-gray-600 font-bold text-lg") Edad en días
+                        p(class="text-gray-800 font-bold text-lg") Edad en días
                             span(class="text-gray-800 block text-xs")= analisis.edad
-
-
-
                             br
 
-                        p(class="text-gray-600 font-bold text-lg") Altitud sobre el nivel del mar
-                            span(class="text-gray-800 block text-xs")= analisis.altitud
+                        p(class="text-gray-800 font-bold text-lg") Altitud
+                            span(class="text-gray-800 block text-xs")= analisis.altura
 
+                        p(class="text-gray-800 font-bold text-lg" ) Presencia de Trips
+                            span(class="text-gray-800 block text-xs" id="prediccion")
+                            br
+                        p(class="text-gray-800 font-bold text-lg") Nivel de confianza
+                            span(class="text-gray-800 block text-xs" id="confianza")
+                            br
 
 
             aside(class="md:w-1/3 bg-white shadow rounded-lg") 
@@ -124,3 +125,4 @@ block contenido
 block scripts
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
     script(src="/js/mostrarMapa.js")
+    script(src="/js/uploadFile1.js")

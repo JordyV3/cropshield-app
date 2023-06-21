@@ -57,7 +57,7 @@ const categoria = async (req, res) => {
         return res.redirect('/404')
     }
 
-    const analisis = await Analisis.findAll({
+    const analisis = await Analysis.findAll({
         where: {
             categoriaId: id
         },
@@ -88,7 +88,7 @@ const buscador = async (req, res) => {
         return res.redirect('back')
     }
 
-    const analisis = await Analisis.findAll({
+    const analisis = await Analysis.findAll({
         where: {
             titulo: {
                 [Sequelize.Op.like] : '%' + termino + '%'

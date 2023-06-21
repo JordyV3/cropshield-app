@@ -2,7 +2,8 @@ import { unlink } from 'node:fs/promises';
 import { validationResult } from 'express-validator'
 import { Cultivo, Categoria, Usuario, Analisis, Mensaje} from '../models/index.js'
 import { esAgricultor, formatearFecha } from '../helpers/index.js'
-const admin = async (req, res) =>{
+
+const admin = async (req, res) => {
     const { pagina: paginaActual } = req.query
 
     const expresion = /^[1-9]$/
@@ -13,7 +14,6 @@ const admin = async (req, res) =>{
 
     try {
         const {id} = req.usuario
-
         const limit = 10
         const offset = ((paginaActual * limit) - limit)
 
@@ -43,8 +43,6 @@ const admin = async (req, res) =>{
             csrfToken: req.csrfToken(),
             paginas: Math.ceil(total / limit),
             paginaActual: Number(paginaActual),
-            formatearFecha,
-            verMensajes,
             total,
             offset,
             limit
@@ -53,33 +51,34 @@ const admin = async (req, res) =>{
     } catch (error) {
         console.log(error)
     }
+
 }
 
 const crear = async (req, res) => {
-
     const [categorias, cultivos] = await Promise.all([
         Categoria.findAll(),
         Cultivo.findAll()
-    ]);
+    ])
 
     res.render('analisis/crear', {
-        pagina: 'Crear Analisis',
+        pagina: 'Crear Propiedad',
         csrfToken: req.csrfToken(),
         categorias,
         cultivos,
         datos: {}
-    });
+    })
 }
 
-const guardar = async (req, res)=>{
-    let resultado = validationResult(req);
+const guardar = async (req, res) => {
+
+    let resultado = validationResult(req)
 
     if(!resultado.isEmpty()) {
 
         const [categorias, cultivos] = await Promise.all([
             Categoria.findAll(),
             Cultivo.findAll()
-        ]);
+        ])
 
         return res.render('analisis/crear', {
             pagina: 'Crear Analisis',
@@ -88,35 +87,41 @@ const guardar = async (req, res)=>{
             cultivos,
             errores: resultado.array(),
             datos: req.body
-        });
+        })
     }
 
-    const { titulo, descripcion, areaAnalisis, observaciones, clima, edad, calle, lat, lng, cultivo: cultivoId, categoria: categoriaId } = req.body
+    console.log(req.body);
 
-    const { id: usuarioId } = req.usuario
+    const { titulo, descripcion, area, observaciones, temperatura, altura, edad, calle, lat, lng, prediccion, confianza, categoria: categoriaId, cultivo: cultivoId} = req.body
 
-    try {
+    const {id: usuarioId} = req.usuario;
+
+    try{
         const analisisGuardado = await Analisis.create({
             titulo,
             descripcion,
-            areaAnalisis,
+            area,
             observaciones,
-            clima,
+            temperatura,
+            altura,
             edad,
             calle,
             lat,
             lng,
-            cultivoId,
+            prediccion: '',
+            confianza: '',
             categoriaId,
+            cultivoId,
             usuarioId,
-            imagen: ''
-        })
+            imagen:'',
 
-        const {id} = analisisGuardado;
+        });
+
+        const {id} = analisisGuardado
 
         res.redirect(`/analisis/agregar-imagen/${id}`)
 
-    } catch (error) {
+    }catch (error){
         console.log(error)
     }
 }
@@ -125,24 +130,27 @@ const agregarImagen = async (req, res) => {
 
     const {id} = req.params
 
+    // Validar que la propiedad exista
     const analisis = await Analisis.findByPk(id)
     if(!analisis) {
         return res.redirect('/mis-analisis')
     }
 
+    // Validar que la propiedad no este publicada
     if(analisis.publicado) {
         return res.redirect('/mis-analisis')
     }
 
+    // Validar que la propiedad pertenece a quien visita esta página
     if( req.usuario.id.toString() !== analisis.usuarioId.toString() ) {
         return res.redirect('/mis-analisis')
     }
-
+    
     res.render('analisis/agregar-imagen', {
         pagina: `Agregar Imagen: ${analisis.titulo}`,
         csrfToken: req.csrfToken(),
         analisis
-    });
+    })
 }
 
 const almacenarImagen = async (req, res, next) => {
@@ -157,6 +165,7 @@ const almacenarImagen = async (req, res, next) => {
     if(analisis.publicado) {
         return res.redirect('/mis-analisis')
     }
+
 
     if( req.usuario.id.toString() !== analisis.usuarioId.toString() ) {
         return res.redirect('/mis-analisis')
@@ -212,16 +221,16 @@ const guardarCambios = async (req, res ) => {
         const [categorias, cultivos] = await Promise.all([
             Categoria.findAll(),
             Cultivo.findAll()
-        ]);
+        ])
 
         return res.render('analisis/editar', {
-            pagina: 'Editar Analisis',
+            pagina: 'Editar Propiedad',
             csrfToken: req.csrfToken(),
             categorias,
             cultivos,
             errores: resultado.array(),
             datos: req.body
-        });
+        })
     }
 
     const {id} = req.params
@@ -232,29 +241,27 @@ const guardarCambios = async (req, res ) => {
         return res.redirect('/mis-analisis')
     }
 
+    // Revisar que quien visita la URl, es quien creo la propiedad
     if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
         return res.redirect('/mis-analisis')
     }
 
     try {
 
-        const { titulo, descripcion, areaAnalisis, observaciones, clima, edad, calle, lat, lng, cultivo: cultivoId, categoria: categoriaId } = req.body
+        const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioId, categoria: categoriaId } = req.body
 
         analisis.set({
-
             titulo,
             descripcion,
-            areaAnalisis,
-            observaciones,
-            clima,
-            edad,
+            habitaciones,
+            estacionamiento,
+            wc,
             calle,
             lat,
             lng,
-            cultivoId,
-            categoriaId,
-
-        });
+            precioId,
+            categoriaId
+        })
 
         await analisis.save();
 
@@ -279,10 +286,10 @@ const eliminar = async (req, res) => {
         return res.redirect('/mis-analisis')
     }
 
-    await unlink(`public/uploads/${propiedad.imagen}`)
-    console.log(`Se eliminó la imagen ${propiedad.imagen}`)
+    await unlink(`public/uploads/${analisis.imagen}`)
+    console.log(`Se eliminó la imagen ${analisis.imagen}`)
 
-    await analisis.destroy()
+    await propiedad.destroy()
     res.redirect('/mis-analisis')
 }
 
@@ -311,6 +318,7 @@ const cambiarEstado = async (req, res) => {
 const mostrarAnalisis = async (req, res) => {
     const {id} = req.params
 
+    // Comprobar que la propiedad exista
     const analisis = await Analisis.findByPk(id, {
         include : [
             { model: Cultivo, as: 'cultivo' },
@@ -328,10 +336,9 @@ const mostrarAnalisis = async (req, res) => {
         pagina: analisis.titulo,
         csrfToken: req.csrfToken(),
         usuario: req.usuario,
-        esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId ),
-        verMensajes,
-        formatearFecha
-    });
+        formatearFecha ,
+        esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId )
+    })
 }
 
 
@@ -354,13 +361,13 @@ const enviarMensaje = async (req, res) => {
     if(!resultado.isEmpty()) {
 
         return res.render('analisis/mostrar', {
-            analisis,
+            propiedad,
             pagina: analisis.titulo,
             csrfToken: req.csrfToken(),
             usuario: req.usuario,
             esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId ),
             errores: resultado.array()
-        });
+        })
     }
     const { mensaje } = req.body
     const { id: analisisId } = req.params

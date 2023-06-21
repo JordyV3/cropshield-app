@@ -7,9 +7,9 @@ import Mensaje from "./Mensajes.js";
 Analisis.belongsTo(Cultivo, {foreignKey: 'cultivoId'});
 Analisis.belongsTo(Categoria, {foreignKey: 'categoriaId'});
 Analisis.belongsTo(Usuario, {foreignKey: 'usuarioId'});
-Analisis.hasMany(Mensaje, { foreignKey: 'analisisdId'} )
+Analisis.hasMany(Mensaje, { foreignKey: 'analisisId'} )
 
-Mensaje.belongsTo(Analisis, { foreignKey: 'analisisdId'})
+Mensaje.belongsTo(Analisis, { foreignKey: 'analisisId'})
 Mensaje.belongsTo(Usuario, { foreignKey: 'usuarioId'})
 
 

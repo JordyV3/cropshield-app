@@ -16,20 +16,20 @@ const Analisis = db.define('analisis', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    areaAnalisis: {
-        type: DataTypes.STRING(100),
+    area: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     observaciones: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    clima: {
-        type: DataTypes.STRING(100),
+    temperatura: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
-    altitud: {
-        type: DataTypes.STRING(100),
+    altura: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     edad: {
@@ -52,10 +52,13 @@ const Analisis = db.define('analisis', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    trips: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+    prediccion: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    confianza: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     publicado: {
         type: DataTypes.BOOLEAN,
