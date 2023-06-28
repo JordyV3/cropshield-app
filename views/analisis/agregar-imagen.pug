@@ -12,6 +12,7 @@ block contenido
 
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10" style="border 1px solid red")
             form( id="imagen" class="dropzone border-dashed border-2 w-full min:h-96 h-auto rounded flex-col justify-center items-center" method="POST" action=`/analisis/agregar-imagen/${analisis.id}`)
+                //- input(type="file" id="inputImagen", name="inputImagen")
                 input(type="hidden" name="_csrf" value= csrfToken)
 
             button(id="publicar" class="mt-5 w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-bold uppercase cursor-pointer" type="button" ) Publicar Analisis
@@ -19,3 +20,4 @@ block contenido
                     
 block scripts
     script(src="/js/agregarImagen.js")
+    //- script(src="/js/uploadFile1.js")

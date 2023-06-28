@@ -7,10 +7,9 @@ const storage = multer.diskStorage({
         cb(null, './public/uploads/')
     },
     filename: function(req, file, cb) {
-        cb(null, generarId() + path.extname(file.originalname) )
+        cb(null, generarId() + path.extname(file.originalname))
     }
 })
-
 const upload = multer({ storage })
 
 export default upload

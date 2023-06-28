@@ -4,6 +4,9 @@ const form = document.getElementById('form');
 const imgPreview = document.getElementById('img-preview');
 const resultadoPrediccion = document.getElementById('prediccion');
 const resultadoConfianza = document.getElementById('confianza');
+const inputPrediccion = document.getElementById('inputPrediccion');
+const inputConfianza = document.getElementById('inputConfianza');
+
 
 form.addEventListener("click", () => {
     imageUploader.click();
@@ -38,10 +41,13 @@ imageUploader.addEventListener('change', async (e) => {
         }
     );
     const data = res.data;
-    // console.log(data);
     const prediccion = data.Predicción;
     const confianza = data.Confianza;
     const confianzaL = confianza * 100 + "%";
     resultadoPrediccion.innerHTML = prediccion;
     resultadoConfianza.innerHTML = confianzaL;
+
+    inputPrediccion.value = prediccion;
+    inputConfianza.value = confianzaL;
+
 });

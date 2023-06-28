@@ -81,6 +81,13 @@ const noEncontrado = (req, res) => {
     })
 }
 
+const verPerfil = (req, res) => {
+    res.render('mi-perfil', {
+        pagina: 'Mi perfil',
+        csrfToken : req.csrfToken()
+    })
+}
+
 const buscador = async (req, res) => {
     const { termino } = req.body
 
@@ -112,5 +119,6 @@ export {
     inicio,
     categoria,
     noEncontrado,
-    buscador
+    buscador,
+    verPerfil
 }

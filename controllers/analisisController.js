@@ -1,19 +1,19 @@
-import { unlink } from 'node:fs/promises';
-import { validationResult } from 'express-validator'
-import { Cultivo, Categoria, Usuario, Analisis, Mensaje} from '../models/index.js'
-import { esAgricultor, formatearFecha } from '../helpers/index.js'
+import { unlink } from 'node:fs/promises';
+import { validationResult } from 'express-validator'
+import { Cultivo, Categoria, Usuario, Analisis, Mensaje } from '../models/index.js'
+import { esAgricultor, formatearFecha } from '../helpers/index.js'
 
 const admin = async (req, res) => {
-    const { pagina: paginaActual } = req.query
+    const { pagina: paginaActual } = req.query
 
     const expresion = /^[1-9]$/
 
-    if(!expresion.test(paginaActual)) {
+    if (!expresion.test(paginaActual)) {
         return res.redirect('/mis-analisis?pagina=1')
     }
 
     try {
-        const {id} = req.usuario
+        const { id } = req.usuario
         const limit = 10
         const offset = ((paginaActual * limit) - limit)
 
@@ -22,7 +22,7 @@ const admin = async (req, res) => {
                 limit,
                 offset,
                 where: {
-                    usuarioId : id
+                    usuarioId: id
                 },
                 include: [
                     { model: Categoria, as: 'categoria' },
@@ -32,20 +32,30 @@ const admin = async (req, res) => {
             }),
             Analisis.count({
                 where: {
-                    usuarioId : id
+                    usuarioId: id
                 }
             })
         ])
 
+        // analisis,
+        // pagina: analisis.titulo,
+        // csrfToken: req.csrfToken(),
+        // usuario: req.usuario,
+        // formatearFecha,
+        // esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId)
+
         res.render('analisis/admin', {
-            pagina: 'Mis Analisis',
             analisis,
+            pagina: 'Mostrar Analisis',
             csrfToken: req.csrfToken(),
+            usuario: req.usuario,
+            formatearFecha,
             paginas: Math.ceil(total / limit),
             paginaActual: Number(paginaActual),
             total,
             offset,
-            limit
+            limit,
+            esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId)
         })
 
     } catch (error) {
@@ -73,7 +83,7 @@ const guardar = async (req, res) => {
 
     let resultado = validationResult(req)
 
-    if(!resultado.isEmpty()) {
+    if (!resultado.isEmpty()) {
 
         const [categorias, cultivos] = await Promise.all([
             Categoria.findAll(),
@@ -90,13 +100,10 @@ const guardar = async (req, res) => {
         })
     }
 
-    console.log(req.body);
-
-    const { titulo, descripcion, area, observaciones, temperatura, altura, edad, calle, lat, lng, prediccion, confianza, categoria: categoriaId, cultivo: cultivoId} = req.body
-
-    const {id: usuarioId} = req.usuario;
-
-    try{
+    const { titulo, descripcion, area, observaciones, temperatura, altura, edad, calle, lat, lng, confianza, prediccion, categoria: categoriaId, cultivo: cultivoId } = req.body
+    
+    const { id: usuarioId } = req.usuario;
+    try {
         const analisisGuardado = await Analisis.create({
             titulo,
             descripcion,
@@ -108,76 +115,16 @@ const guardar = async (req, res) => {
             calle,
             lat,
             lng,
-            prediccion: '',
-            confianza: '',
+            prediccion,
+            confianza,
             categoriaId,
             cultivoId,
             usuarioId,
             imagen:'',
-
+            publicado: 1
         });
-
-        const {id} = analisisGuardado
-
-        res.redirect(`/analisis/agregar-imagen/${id}`)
-
-    }catch (error){
-        console.log(error)
-    }
-}
-
-const agregarImagen = async (req, res) => {
-
-    const {id} = req.params
-
-    // Validar que la propiedad exista
-    const analisis = await Analisis.findByPk(id)
-    if(!analisis) {
-        return res.redirect('/mis-analisis')
-    }
-
-    // Validar que la propiedad no este publicada
-    if(analisis.publicado) {
-        return res.redirect('/mis-analisis')
-    }
-
-    // Validar que la propiedad pertenece a quien visita esta página
-    if( req.usuario.id.toString() !== analisis.usuarioId.toString() ) {
-        return res.redirect('/mis-analisis')
-    }
-    
-    res.render('analisis/agregar-imagen', {
-        pagina: `Agregar Imagen: ${analisis.titulo}`,
-        csrfToken: req.csrfToken(),
-        analisis
-    })
-}
-
-const almacenarImagen = async (req, res, next) => {
-
-    const {id} = req.params
-
-    const analisis = await Analisis.findByPk(id)
-    if(!analisis) {
-        return res.redirect('/mis-analisis')
-    }
-
-    if(analisis.publicado) {
-        return res.redirect('/mis-analisis')
-    }
-
-
-    if( req.usuario.id.toString() !== analisis.usuarioId.toString() ) {
-        return res.redirect('/mis-analisis')
-    }
-
-    try {
-        analisis.imagen = req.file.filename
-        analisis.publicado = 1
-
-        await analisis.save()
-
-        next()
+        console.log(analisisGuardado);
+        res.redirect('/mis-analisis/')
 
     } catch (error) {
         console.log(error)
@@ -186,15 +133,15 @@ const almacenarImagen = async (req, res, next) => {
 
 const editar = async (req, res) => {
 
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id)
 
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/mis-analisis')
     }
 
-    if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
+    if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
 
@@ -212,11 +159,11 @@ const editar = async (req, res) => {
     })
 }
 
-const guardarCambios = async (req, res ) => {
+const guardarCambios = async (req, res) => {
 
     let resultado = validationResult(req)
 
-    if(!resultado.isEmpty()) {
+    if (!resultado.isEmpty()) {
 
         const [categorias, cultivos] = await Promise.all([
             Categoria.findAll(),
@@ -233,16 +180,16 @@ const guardarCambios = async (req, res ) => {
         })
     }
 
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id)
 
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/mis-analisis')
     }
 
     // Revisar que quien visita la URl, es quien creo la propiedad
-    if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
+    if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
 
@@ -275,14 +222,14 @@ const guardarCambios = async (req, res ) => {
 
 const eliminar = async (req, res) => {
 
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id)
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/mis-analisis')
     }
 
-    if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
+    if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
 
@@ -295,14 +242,14 @@ const eliminar = async (req, res) => {
 
 const cambiarEstado = async (req, res) => {
 
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id)
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/mis-analisis')
     }
 
-    if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
+    if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
 
@@ -316,62 +263,60 @@ const cambiarEstado = async (req, res) => {
 }
 
 const mostrarAnalisis = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
-    // Comprobar que la propiedad exista
     const analisis = await Analisis.findByPk(id, {
-        include : [
+        include: [
             { model: Cultivo, as: 'cultivo' },
             { model: Categoria, as: 'categoria', scope: 'eliminarPassword' },
         ]
     })
 
-    if(!analisis || !analisis.publicado) {
+    if (!analisis || !analisis.publicado) {
         return res.redirect('/404')
     }
-
 
     res.render('analisis/mostrar', {
         analisis,
         pagina: analisis.titulo,
         csrfToken: req.csrfToken(),
         usuario: req.usuario,
-        formatearFecha ,
-        esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId )
+        formatearFecha,
+        esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId)
     })
 }
 
 
 const enviarMensaje = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id, {
-        include : [
+        include: [
             { model: Cultivo, as: 'cultivo' },
             { model: Categoria, as: 'categoria' },
         ]
     })
 
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/404')
     }
 
     let resultado = validationResult(req)
 
-    if(!resultado.isEmpty()) {
+    if (!resultado.isEmpty()) {
 
         return res.render('analisis/mostrar', {
             propiedad,
             pagina: analisis.titulo,
             csrfToken: req.csrfToken(),
             usuario: req.usuario,
-            esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId ),
+            esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId),
             errores: resultado.array()
         })
     }
-    const { mensaje } = req.body
-    const { id: analisisId } = req.params
-    const { id: usuarioId } = req.usuario
+    const { mensaje } = req.body
+    const { id: analisisId } = req.params
+    const { id: usuarioId } = req.usuario
 
     await Mensaje.create({
         mensaje,
@@ -384,23 +329,24 @@ const enviarMensaje = async (req, res) => {
 }
 const verMensajes = async (req, res) => {
 
-    const {id} = req.params
+    const { id } = req.params
 
     const analisis = await Analisis.findByPk(id, {
         include: [
-            { model: Mensaje, as: 'mensajes',
+            {
+                model: Mensaje, as: 'mensajes',
                 include: [
-                    {model: Usuario.scope('eliminarPassword'), as: 'usuario'}
+                    { model: Usuario.scope('eliminarPassword'), as: 'usuario' }
                 ]
             },
         ],
     })
 
-    if(!analisis) {
+    if (!analisis) {
         return res.redirect('/mis-analisis')
     }
 
-    if(analisis.usuarioId.toString() !== req.usuario.id.toString() ) {
+    if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
 
@@ -415,8 +361,8 @@ export {
     admin,
     crear,
     guardar,
-    agregarImagen,
-    almacenarImagen,
+    // agregarImagen,
+    // almacenarImagen,
     editar,
     guardarCambios,
     eliminar,

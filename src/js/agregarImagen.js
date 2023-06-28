@@ -2,6 +2,8 @@ import { Dropzone } from 'dropzone'
 
 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
+
+
 Dropzone.options.imagen = {
     dictDefaultMessage: 'Sube imágenes de tus cultivos aquí',
     acceptedFiles: '.png,.jpg,.jpeg',
@@ -18,6 +20,11 @@ Dropzone.options.imagen = {
     paramName: 'imagen',
     init: function() {
         const dropzone = this
+        this.on("addedfile", file =>{
+            console.log(file.accepted);
+        })
+        
+
         const btnPublicar = document.querySelector('#publicar')
 
         btnPublicar.addEventListener('click', function() {

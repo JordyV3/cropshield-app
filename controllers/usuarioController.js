@@ -10,6 +10,7 @@ const formularioLogin = (req, res) => {
         csrfToken: req.csrfToken()
     })
 }
+
 const autenticar = async (req, res) => {
     await check('email').isEmail().withMessage('El Email es Obligatorio').run(req)
     await check('password').notEmpty().withMessage('El Password es Obligatorio').run(req)
@@ -70,6 +71,7 @@ const formularioRegistro = (req, res) => {
         csrfToken : req.csrfToken()
     })
 }
+
 const registrar = async (req, res) => {
 
     await check('nombre').notEmpty().withMessage('El Nombre no puede ir vacio').run(req)
@@ -254,5 +256,5 @@ export {
     formularioOlvidePassword,
     resetPassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
 }
