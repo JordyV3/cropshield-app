@@ -14,12 +14,12 @@ const emailRegistro = async (datos) => {
 
     // Enviar el email
     await transport.sendMail({
-        from: 'BienesRaices.com',
+        from: 'CropShield.com',
         to: email,
-        subject: 'Confirma tu Cuenta en BienesRaices.com',
-        text: 'Confirma tu Cuenta en BienesRaices.com',
+        subject: 'Confirma tu Cuenta en CropShield.com',
+        text: 'Confirma tu Cuenta en CropShield.com',
         html: `
-            <p>Hola ${nombre}, comprueba tu cuenta en bienesRaices.com</p>
+            <p>Hola ${nombre}, comprueba tu cuenta en cropshield.comm</p>
 
             <p>Tu cuenta ya esta lista, solo debes confirmarla en el siguiente enlace: 
             <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/confirmar/${token}">Confirmar Cuenta</a> </p>
@@ -43,12 +43,12 @@ const emailOlvidePassword = async (datos) => {
 
     // Enviar el email
     await transport.sendMail({
-        from: 'BienesRaices.com',
+        from: 'CropShield.com',
         to: email,
-        subject: 'Reestablece tu Password en BienesRaices.com',
-        text: 'Reestablece tu Password en BienesRaices.com',
+        subject: 'Reestablece tu Password en CropShield.com',
+        text: 'Reestablece tu Password en CropShield.com',
         html: `
-            <p>Hola ${nombre}, has solicitado reestablecer tu password en bienesRaices.com</p>
+            <p>Hola ${nombre}, has solicitado reestablecer tu password en cropshield.com</p>
 
             <p>Sigue el siguiente enlace para generar un password nuevo: 
             <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/olvide-password/${token}">Reestablecer Password</a> </p>

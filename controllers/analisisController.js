@@ -1,7 +1,9 @@
 import { unlink } from 'node:fs/promises';
-import { validationResult } from 'express-validator'
+import { body, validationResult } from 'express-validator'
 import { Cultivo, Categoria, Usuario, Analisis, Mensaje } from '../models/index.js'
 import { esAgricultor, formatearFecha } from '../helpers/index.js'
+import { analisis } from './apiController.js';
+import path from 'node:path';
 
 const admin = async (req, res) => {
     const { pagina: paginaActual } = req.query
@@ -14,7 +16,7 @@ const admin = async (req, res) => {
 
     try {
         const { id } = req.usuario
-        const limit = 10
+        const limit = 3
         const offset = ((paginaActual * limit) - limit)
 
         const [analisis, total] = await Promise.all([
@@ -71,7 +73,7 @@ const crear = async (req, res) => {
     ])
 
     res.render('analisis/crear', {
-        pagina: 'Crear Propiedad',
+        pagina: 'Crear Analisis',
         csrfToken: req.csrfToken(),
         categorias,
         cultivos,
@@ -123,7 +125,6 @@ const guardar = async (req, res) => {
             imagen:'',
             publicado: 1
         });
-        console.log(analisisGuardado);
         res.redirect('/mis-analisis/')
 
     } catch (error) {
@@ -171,7 +172,7 @@ const guardarCambios = async (req, res) => {
         ])
 
         return res.render('analisis/editar', {
-            pagina: 'Editar Propiedad',
+            pagina: 'Editar Analisis',
             csrfToken: req.csrfToken(),
             categorias,
             cultivos,
@@ -188,7 +189,7 @@ const guardarCambios = async (req, res) => {
         return res.redirect('/mis-analisis')
     }
 
-    // Revisar que quien visita la URl, es quien creo la propiedad
+    // Revisar que quien visita la URl, es quien creo el Analisis
     if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
@@ -236,7 +237,7 @@ const eliminar = async (req, res) => {
     await unlink(`public/uploads/${analisis.imagen}`)
     console.log(`Se eliminó la imagen ${analisis.imagen}`)
 
-    await propiedad.destroy()
+    await analisis.destroy()
     res.redirect('/mis-analisis')
 }
 
@@ -306,11 +307,12 @@ const enviarMensaje = async (req, res) => {
     if (!resultado.isEmpty()) {
 
         return res.render('analisis/mostrar', {
-            propiedad,
+            analisis,
+            formatearFecha,
             pagina: analisis.titulo,
             csrfToken: req.csrfToken(),
             usuario: req.usuario,
-            esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId),
+            esAgricultor: esAgricultor(req.usuario?.id, analisis.usuarioId),
             errores: resultado.array()
         })
     }

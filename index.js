@@ -10,10 +10,9 @@ import apiRoutes from "./routers/apiRoutes.js";
 const app = express();
 
 app.use( express.urlencoded({extended: true}) )
-
 app.use( cookieParser() )
 
-app.use( csrf({cookie: true}) )
+app.use( csrf({cookie: true}))
 
 try {
     await db.authenticate();

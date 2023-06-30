@@ -11,7 +11,7 @@ const router = express.Router()
 
 router.get('/mis-analisis', protegerRuta, admin);
 router.get('/analisis/crear', protegerRuta, crear);
-router.post('/analisis/crear', protegerRuta, 
+router.post('/analisis/crear', protegerRuta,
     body('titulo').notEmpty().withMessage('El Titulo del Analisis es Obligatorio'),
     body('descripcion').notEmpty().withMessage('La Descripción no puede ir vacia').isLength({ max: 200 }).withMessage('La Descripción es muy larga'),
     body('categoria').notEmpty().withMessage('Selecciona una categoría'),
@@ -20,23 +20,11 @@ router.post('/analisis/crear', protegerRuta,
     body('observaciones').notEmpty().withMessage('Las observaciones son necesarias'),
     body('temperatura').notEmpty().withMessage('Ingrese la temperatura del clima'),
     body('edad').notEmpty().withMessage('La edad no puede ir vacia'),
-    body('lat').notEmpty().withMessage('Ubica la Propiedad en el Mapa'),
+    body('lat').notEmpty().withMessage('Ubica tu cultivo en el Mapa'),
     // body('img-uploader').notEmpty().withMessage('Sube una imagen'),
     upload.single('imagen'),
     guardar,
 );
-
-// router.get('/analisis/agregar-imagen/:id',
-//     protegerRuta,
-//     agregarImagen
-// );
-
-// router.post('/analisis/crear/:id',
-//     protegerRuta,
-//     agregarImagen,
-//     upload.single('imagen'),
-//     almacenarImagen
-// )
 
 router.get('/analisis/editar/:id',
     protegerRuta,
@@ -53,7 +41,7 @@ router.post('/analisis/editar/:id',
     body('observaciones').notEmpty().withMessage('Las observaciones son necesarias'),
     body('temperatura').notEmpty().withMessage('Ingresa el clima'),
     body('edad').notEmpty().withMessage('La edad no puede ir vacia'),
-    body('lat').notEmpty().withMessage('Ubica la Propiedad en el Mapa'),
+    body('lat').notEmpty().withMessage('Ubica tu plantacion en el Mapa'),
     guardarCambios
 )
 

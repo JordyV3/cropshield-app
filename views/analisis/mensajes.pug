@@ -1,27 +1,70 @@
 extends ../layout/admin
     
 block contenido 
-    h2(class="text-2xl font-extrabold text-center my-10")=pagina
+    <div class="bg-white mt-20">
+        <div class="mx-auto max-w-4xl mt-10">
+            a(href="/mis-analisis" class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto")  Volver
+        </div>
+        <div class="mx-auto max-w-4xl bg-white shadow rounded-lg mt-10">
+            if mensajes.length
+                <div class="mx-auto max-w-4xl p-4">
+                    each mensaje in mensajes
+                        <ul role="list" class="divide-y divide-gray-100">
+                            <li class="flex justify-between gap-x-6 py-5">
+                                <div class="flex gap-x-4">
+                                    <div class="min-w-0 flex-auto">
+                                        p(class="text-sm font-semibold leading-6 text-gray-900")= mensaje.usuario.nombre
+                                        p(class="mt-1 truncate text-xs leading-5 text-gray-500")= mensaje.usuario.email
+                                    </div>
+                                </div>
+                                <div class="hidden sm:flex sm:flex-col sm:items-end">
+                                    p(class="text-sm leading-6 text-gray-900")= mensaje.mensaje
+                                    p(class="mt-1 text-xs leading-5 text-gray-500")= formatearFecha( mensaje.createdAt )
+                                </div>
+                            </li>
+                        </ul>
+                </div>
+            else
+                <div class="mx-auto max-w-4xl bg-white shadow rounded-lg mt-10">
+                    <div class="mx-auto max-w-4xl p-4">
+                        <div class="mt-4">
+                            <div class="mt-2 space-y-6">
+                                p(class="text-sm text-gray-600") No hay mensajes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="mx-auto mt-32 w-full max-w-container px-4 sm:px-6 lg:px-8">
+        <div class="border-t border-slate-900/5 py-10 text-center">
+            <img class="h-8 w-auto" src="/img/icon.svg" style="margin: 0 auto;" alt="icono-cropshield">
+            <p class="mt-5 text-center text-sm leading-6 text-slate-500">© 2023 Jordy Vega. All rights reserved.</p>
+        </div>
+    </div>  
 
-    a(href="/mis-analisis" class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto")  Volver
 
-    div(class="mx-auto max-w-4xl bg-white shadow")
+    //- h2(class="text-2xl font-extrabold text-center my-10")=pagina
 
-        if mensajes.length
-            ul
-                each mensaje in mensajes
-                    li(class="border-gray-200 border-b p-5")
-                        p(class="font-bold text-gray-800") Nombre: 
-                            span(class="font-normal")= mensaje.usuario.nombre
+    //- a(href="/mis-analisis" class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto")  Volver
 
-                        p(class="font-bold text-gray-800") Email: 
-                            span(class="font-normal")= mensaje.usuario.email
+    //- div(class="mx-auto max-w-4xl bg-white shadow")
 
-                        p(class="font-bold text-gray-800") Mensaje: 
-                            span(class="font-normal")= mensaje.mensaje
+    //-     if mensajes.length
+    //-         ul
+    //-             each mensaje in mensajes
+    //-                 li(class="border-gray-200 border-b p-5")
+    //-                     p(class="font-bold text-gray-800") Nombre: 
+    //-                         span(class="font-normal")= mensaje.usuario.nombre
 
-                        p(class="font-bold text-gray-800") Enviado: 
-                            span(class="font-normal")= formatearFecha( mensaje.createdAt )
+    //-                     p(class="font-bold text-gray-800") Email: 
+    //-                         span(class="font-normal")= mensaje.usuario.email
+
+    //-                     p(class="font-bold text-gray-800") Mensaje: 
+    //-                         span(class="font-normal")= mensaje.mensaje
+
+    //-                     p(class="font-bold text-gray-800") Enviado: 
+    //-                         span(class="font-normal")= formatearFecha( mensaje.createdAt )
                             
-        else 
-            p(class="text-center text-gray-600 p-5") No Hay Mensajes
+    //-     else 
+    //-         p(class="text-center text-gray-600 p-5") No Hay Mensajes

@@ -13,13 +13,3 @@ closeModal.addEventListener('click', function(){
         modal.style.display = "none"
     }
 })
-
-
-const indicadorPlaga = document.getElementById('indicador-plaga');
-const sectionControlPlagas = document.getElementById('section-control-plagas');
-
-indicadorPlaga.addEventListener('change', function(){
-    if(indicadorPlaga === "Planta Enferma Trips"){
-        sectionControlPlagas.display = "block"
-    }
-})

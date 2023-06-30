@@ -23,7 +23,19 @@ imageUploader.onchange = ({ target }) => {
     }
 }
 
+const loading = document.getElementById('loading');
+
+console.log("Hello")
+
+imageUploader.addEventListener('change', function() {
+  loading.style.display = 'block';
+  setTimeout(function() {
+    loading.style.display = 'none';
+  }, 2000);
+});
+
 const API_URL = `http://localhost:8080/predict`;
+// const API_URL = `http://165.232.139.195/:8080/predict`;
 
 imageUploader.addEventListener('change', async (e) => {
     const file = e.target.files[0];
