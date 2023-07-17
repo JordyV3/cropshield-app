@@ -4,6 +4,7 @@ import { Cultivo, Categoria, Usuario, Analisis, Mensaje } from '../models/index.
 import { esAgricultor, formatearFecha } from '../helpers/index.js'
 import { analisis } from './apiController.js';
 import path from 'node:path';
+import { count } from 'node:console';
 
 const admin = async (req, res) => {
     const { pagina: paginaActual } = req.query
@@ -16,11 +17,12 @@ const admin = async (req, res) => {
 
     try {
         const { id } = req.usuario
-        const limit = 3
+        const limit = 5
         const offset = ((paginaActual * limit) - limit)
 
         const [analisis, total] = await Promise.all([
             Analisis.findAll({
+                order: [['createdAt', 'DESC']],
                 limit,
                 offset,
                 where: {
@@ -38,13 +40,6 @@ const admin = async (req, res) => {
                 }
             })
         ])
-
-        // analisis,
-        // pagina: analisis.titulo,
-        // csrfToken: req.csrfToken(),
-        // usuario: req.usuario,
-        // formatearFecha,
-        // esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId)
 
         res.render('analisis/admin', {
             analisis,
@@ -65,6 +60,84 @@ const admin = async (req, res) => {
     }
 
 }
+
+const publico = async (req, res) => {
+    const { pagina: paginaActual } = req.query
+    
+    const expresion = /^[1-9]$/
+
+    if (!expresion.test(paginaActual)) {
+        return res.redirect('/analisis?pagina=1')
+    }
+
+    try {
+        const limit = 15
+        const offset = ((paginaActual * limit) - limit)
+
+        const [analisis, total] = await Promise.all([
+            Analisis.findAll({
+                limit,
+                offset,
+                include: [
+                    { model: Categoria, as: 'categoria' },
+                    { model: Cultivo, as: 'cultivo' },
+                    { model: Usuario, as: 'usuario'}
+                ],
+            }),
+        ])
+
+        const [analisisCt] = await Promise.all([
+            Analisis.count()
+        ])
+
+        const [analisisPrediccionSana] = await Promise.all([
+            Analisis.count({ where: {prediccion: 'Planta Saludable'}})
+        ]);
+
+        const [analisisPrediccionEnfermo] = await Promise.all([
+            Analisis.count({ where: {prediccion: 'Planta Enferma Trips'}})
+        ]);
+
+        const [promedioC] = await Promise.all([
+            Analisis.aggregate('confianza', 'avg', { 
+            })
+        ]);
+
+        const [promedioRedondeado] = await Promise.all([
+            promedioC.toFixed(2)
+        ]);
+
+        const [promedioSalu] = await Promise.all([ (analisisPrediccionSana / analisisCt) * 100 ])
+        const [promedioSaluR] = await Promise.all([promedioSalu.toFixed(2)])
+
+        const [promedioEnf] = await Promise.all([(analisisPrediccionEnfermo / analisisCt) * 100])
+        const [promedioEnfR] = await Promise.all([promedioEnf.toFixed(2)])
+
+        res.render('analisis/public', {
+            analisis,
+            analisisCt,
+            analisisPrediccionSana,
+            analisisPrediccionEnfermo,
+            promedioRedondeado,
+            promedioSaluR,
+            promedioEnfR,
+            usuario: req.usuario,
+            pagina: 'Mostrar Analisis',
+            csrfToken: req.csrfToken(),
+            formatearFecha,
+            paginas: Math.ceil(total / limit),
+            paginaActual: Number(paginaActual),
+            total,
+            offset,
+            limit,
+            esVendedor: esAgricultor(req.usuario?.id, analisis.usuarioId)
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 const crear = async (req, res) => {
     const [categorias, cultivos] = await Promise.all([
@@ -101,8 +174,7 @@ const guardar = async (req, res) => {
             datos: req.body
         })
     }
-
-    const { titulo, descripcion, area, observaciones, temperatura, altura, edad, calle, lat, lng, confianza, prediccion, categoria: categoriaId, cultivo: cultivoId } = req.body
+    const { titulo, descripcion, area, observaciones, temperatura, altura, edad, calle, lat, lng, confianza, imagen, prediccion, categoria: categoriaId, cultivo: cultivoId } = req.body
     
     const { id: usuarioId } = req.usuario;
     try {
@@ -122,10 +194,12 @@ const guardar = async (req, res) => {
             categoriaId,
             cultivoId,
             usuarioId,
-            imagen:'',
+            imagen,
             publicado: 1
         });
-        res.redirect('/mis-analisis/')
+        console.log(analisisGuardado);
+
+        res.redirect('/mis-analisis')
 
     } catch (error) {
         console.log(error)
@@ -189,7 +263,6 @@ const guardarCambios = async (req, res) => {
         return res.redirect('/mis-analisis')
     }
 
-    // Revisar que quien visita la URl, es quien creo el Analisis
     if (analisis.usuarioId.toString() !== req.usuario.id.toString()) {
         return res.redirect('/mis-analisis')
     }
@@ -355,7 +428,7 @@ const verMensajes = async (req, res) => {
     res.render('analisis/mensajes', {
         pagina: 'Mensajes',
         mensajes: analisis.mensajes,
-        formatearFecha
+        formatearFecha,
     })
 }
 
@@ -371,5 +444,6 @@ export {
     cambiarEstado,
     mostrarAnalisis,
     enviarMensaje,
-    verMensajes
+    verMensajes,
+    publico,
 }

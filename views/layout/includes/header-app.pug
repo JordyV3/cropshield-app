@@ -17,7 +17,7 @@
         <div id="nav" class="hidden lg:flex lg:gap-x-12">
             <a href="/" class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 ">Inicio</a>
             <div class="relative">
-                <button type="button" id="miBoton" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 " aria-expanded="false"> Cultivos
+                <button type="button" id="miBoton" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 " aria-expanded="false"> Análisis
                     <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                     </svg>
@@ -26,20 +26,27 @@
                     <div class="p-4">
                         <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
                             <div class="flex-auto ">
-                                <a href="#" class="block font-semibold text-gray-900 hover:text-indigo-500 "> Chile
+                                <a href="/analisis" class="block font-semibold text-gray-900 hover:text-indigo-500 "> Chile 
                                     <span class="absolute inset-0"></span>
                                 </a>
-                                <p class="mt-1 text-gray-600 hover:text-indigo-500 ">Cultivos de chile jalapeño</p>
+                                <p class="mt-1 text-gray-600 hover:text-indigo-500 ">Análisis chile jalapeño</p>
+                            </div>
+                        </div>
+                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                            <div class="flex-auto ">
+                                <a href="/graficos" class="block font-semibold text-gray-900 hover:text-indigo-500 "> Graficos 
+                                    <span class="absolute inset-0"></span>
+                                </a>
+                                <p class="mt-1 text-gray-600 hover:text-indigo-500 ">Gráfico Estadístico</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 ">Control de plagas</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 ">Nosotros</a>
+            <a href="/control-plagas" class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 ">Control de plagas</a>
+            <a href="/analisis-tiempo-real" class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500 ">Tiempo real</a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            //- <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer">Cerrar Sesión</button>
             <a href="/auth/login" class="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500 cursor-pointer">Login</a>
         </div>
     </nav>
@@ -65,14 +72,13 @@
                                 </svg>
                             </button>
                             <div class="mt-2 space-y-2" id="menuMovil" style="display: none;">
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Chile</a>
+                                <a href="/analisis" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Chile</a>
                             </div>
                         </div>
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Control de plagas</a>
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Nosotros</a>
+                        <a href="/control-plagas" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Control de plagas</a>
+                        <a href="/analisis-tiempo-real" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tiempo real</a>
                     </div>
                     <div class="py-6">
-                        //- class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                         <a href="/auth/login" class="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500 cursor-pointer">Login</a>
                     </div>
                 </div>
@@ -80,20 +86,3 @@
         </div>
     </div>
 </header>
-
-
-//- <header class="bg-white">
-//-     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-//-         <div class="flex lg:flex-1">
-//-             <a href="#" class="-m-1.5 p-1.5">
-//-                 <img class="h-8 w-auto" src="/img/icon.svg" alt="">
-//-             </a>
-//-         </div>
-//-         <div class="hidden lg:flex lg:gap-x-12">
-//-             h2(class=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900") CropShield
-//-         </div>
-//-         <div class=" lg:flex lg:flex-1 lg:justify-end">
-//-             <a href="/auth/login" class="text-sm font-semibold leading-6 text-gray-900">Iniciar Sesión</a>
-//-         </div>
-//-     </nav>
-//- </header>

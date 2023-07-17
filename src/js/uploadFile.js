@@ -24,18 +24,26 @@ imageUploader.onchange = ({ target }) => {
 }
 
 const loading = document.getElementById('loading');
-
-console.log("Hello")
+const loadingP = document.getElementById('loadingP');
+const loadingC = document.getElementById('loadingC');
 
 imageUploader.addEventListener('change', function() {
   loading.style.display = 'block';
+  loadingP.style.display = 'block';
+  loadingC.style.display = 'block';
   setTimeout(function() {
     loading.style.display = 'none';
+    loadingP.style.display = 'none';
+    loadingC.style.display = 'none';
   }, 2000);
+
 });
 
+
+
+
 const API_URL = `http://localhost:8080/predict`;
-// const API_URL = `http://165.232.139.195/:8080/predict`;
+// const API_URL = `http://165.232.139.195/predict`;
 
 imageUploader.addEventListener('change', async (e) => {
     const file = e.target.files[0];
@@ -56,10 +64,13 @@ imageUploader.addEventListener('change', async (e) => {
     const prediccion = data.Predicción;
     const confianza = data.Confianza;
     const confianzaL = confianza * 100 + "%";
-    resultadoPrediccion.innerHTML = prediccion;
-    resultadoConfianza.innerHTML = confianzaL;
-
     inputPrediccion.value = prediccion;
     inputConfianza.value = confianzaL;
-
+    
+    setTimeout(function(){
+        resultadoPrediccion.innerHTML = prediccion;
+        resultadoConfianza.innerHTML = confianzaL;
+    }, 2000);
 });
+
+

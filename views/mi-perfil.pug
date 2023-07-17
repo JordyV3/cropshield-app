@@ -6,36 +6,135 @@ block styles
     link(rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css")
 
 block contenido 
-    div(class="py-2")
-        h2(class="text-center text-4xl font-extrabold pt-10")= pagina
+    //- div(class="py-2")
+    //-     h2(class="text-center text-4xl font-extrabold pt-10")= pagina
 
-    section(class="seccion-perfil-usuario")
-        div(class="perfil-usuario-header")
-            div(class="perfil-usuario-portada")
-                div(class="perfil-usuario-avatar")
-                    img(src="/img/avatar.png")
-                    button(type="button" class="boton-avatar")
-                        i(class="far fa-image")
-                button(type="button" class="boton-portada")
-        div(class="perfil-usuario-body")
-            div(class="perfil-usuario-bio")
-                h3(class="titulo") Jordy Vega
-                p(class="texto") ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod incididunt ut labore et dolore magna aliqua.
-            div(class="perfil-usuario-footer")
-                ul(class="lista-datos")
-                    li Direccion de usuario:
-                    i(class="icono fas fa-map-signs")
-                    li Telefono
-                    i(class="icono fas fa-phone-alt")
-                    li Trabaja en 
-                    i(class="icono fas fa-briefcase")
-                ul(class="lista-datos")
-                    li Direccion de usuario:
-                    i(class="icono fas fa-map-signs")
-                    li Telefono
-                    i(class="icono fas fa-phone-alt")
-                    li Trabaja en 
-                    i(class="icono fas fa-briefcase")
+    //- section(class="seccion-perfil-usuario")
+    //-     div(class="perfil-usuario-header")
+    //-         div(class="perfil-usuario-portada")
+    //-             div(class="perfil-usuario-avatar")
+    //-                 img(src="/img/avatar.png")
+    //-                 button(type="button" class="boton-avatar")
+    //-                     i(class="far fa-image")
+    //-             button(type="button" class="boton-portada")
+    //-     div(class="perfil-usuario-body")
+    //-         div(class="perfil-usuario-bio")
+    //-             h3(class="titulo") Jordy Vega
+    //-             p(class="texto") ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod incididunt ut labore et dolore magna aliqua.
+    //-         div(class="perfil-usuario-footer")
+    //-             ul(class="lista-datos")
+    //-                 li Direccion de usuario:
+    //-                 i(class="icono fas fa-map-signs")
+    //-                 li Telefono
+    //-                 i(class="icono fas fa-phone-alt")
+    //-                 li Trabaja en 
+    //-                 i(class="icono fas fa-briefcase")
+    //-             ul(class="lista-datos")
+    //-                 li Direccion de usuario:
+    //-                 i(class="icono fas fa-map-signs")
+    //-                 li Telefono
+    //-                 i(class="icono fas fa-phone-alt")
+    //-                 li Trabaja en 
+    //-                 i(class="icono fas fa-briefcase")
+
+    //- <header class="absolute inset-x-0 top-0 z-50">
+    //-     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+    //-         <div class="flex lg:flex-1">
+    //-             <a href="/" class="-m-1.5 p-1.5">
+    //-                 <span class="sr-only">Your Company</span>
+    //-                 <img class="h-8 w-auto" src="/img/icon.svg" alt="icono-cropshield">
+    //-             </a>
+    //-         </div>
+    //-         <div class="flex lg:hidden">
+    //-             <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" id="menuHamA">
+    //-                 <span class="sr-only">Open main menu</span>
+    //-                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+    //-                     <path stroke-linecap="round" stroke-linejoin="round"d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+    //-                 </svg>
+    //-             </button>
+    //-         </div>
+    //-         <div id="nav" class="hidden lg:flex lg:gap-x-12">
+    //-             <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Estadisticas</a>
+    //-             <a href="/mis-analisis" class="text-sm font-semibold leading-6 text-gray-900">Mis analisis</a>
+    //-             <a href="/mi-perfil" class="text-sm font-semibold leading-6 text-gray-900">Mi Perfil</a>
+    //-         </div>
+    //-         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+    //-             <form action="/auth/cerrar-sesion" method="POST">
+    //-                 input(type="hidden" name="_csrf" value=csrfToken )
+    //-                 <span class="sm:ml-3">
+    //-                     //- <a type="submit"  class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer">Cerrar Sesión</a>
+    //-                     <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer">Cerrar Sesión</button>
+    //-                 </span>
+    //-             </form>
+    //-         </div>
+    //-     </nav>
+    //-     <div class="lg:hidden" id="miMenuMovilA" role="dialog" aria-modal="true" style="display: none;">
+    //-         <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+    //-             <div class="flex items-center justify-between">
+    //-                 <a href="#" class="-m-1.5 p-1.5">
+    //-                     <img class="h-8 w-auto" src="img/icon.svg" alt="">
+    //-                 </a>
+    //-                 <button type="button" id="botonCloseA" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+    //-                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+    //-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    //-                     </svg>
+    //-                 </button>
+    //-             </div>
+    //-             <div class="mt-6 flow-root">
+    //-                 <div class="-my-6 divide-y divide-gray-500/10">
+    //-                     <div class="space-y-2 py-6">
+    //-                         <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Estadisticas</a>
+    //-                         <a href="/mis-analisis" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis Analisis</a>
+    //-                         <a href="/mi-perfil" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mi perfil</a>
+    //-                             //- form(action="/auth/cerrar-sesion" method="POST")
+    //-                             //-     input(type="hidden" name="_csrf" value=csrfToken )
+    //-                             //-     input( type="submit" class="bg-emerald-800 py-2 px-10 rounded-lg font-bold cursor-pointer" value="Cerrar Sesión")
+    //-                     </div>                           
+    //-                     <div class="py-6">
+    //-                         <form action="/auth/cerrar-sesion" method="POST">
+    //-                             input(type="hidden" name="_csrf" value=csrfToken )
+    //-                             <span class="sm:ml-3">
+    //-                                 <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer">Cerrar Sesión</button>
+    //-                                 //- <a href="/archivos/Ficha Técnica INIA N° 02.pdf" download="Ficha Técnica INIA N° 02.pdf"  class="font-medium text-indigo-600 hover:text-indigo-500">Download</a>
+    //-                                 //- <button type="submit" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+    //-                                 //-     <svg class="-ml-0.5 mr-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368" />
+    //-                                 //-     </svg> Cerrar Sesión
+    //-                                 //- </button>
+    //-                             </span>
+    //-                         </form>
+    //-                     </div>
+    //-                 </div>
+    //-             </div>
+    //-         </div>
+    //-     </div>
+    //- </header>
+
+
+
+    <div class="mt-20 mx-auto max-w-2xl px-4 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-4 lg:px-4 lg:pb-24">
+        <div class="lg:col-span-2">
+            <div class="lg:row-span-2 lg:mt-0">
+                <div class="px-5 py-5 space-y-5 mb-5">
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-center">Información Personal</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 mt-10">
+                        <div class="mt-10 text-center">
+                            <h2 class="text-sm font-medium text-gray-900">Nombre</h2>
+                            <div class="mt-2 space-y-6">
+                                p( class="text-sm text-gray-600") Jordy Vega 
+                            </div>
+                        </div>
+                        <div class="mt-10 text-center">
+                            <h2 class="text-sm font-medium text-gray-900">Correo</h2>
+                            <div class="mt-2 space-y-6">
+                                <p class="text-sm text-gray-600">Correo@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="mx-auto mt-32 w-full max-w-container px-4 sm:px-6 lg:px-8">
         <div class="border-t border-slate-900/5 py-10 text-center">
@@ -43,6 +142,13 @@ block contenido
             <p class="mt-5 text-center text-sm leading-6 text-slate-500">© 2023 Jordy Vega. All rights reserved.</p>
         </div>
     </div>
+
+block scripts
+    script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+    script(src="/js/mostrarMapa.js")
+    script(src="/js/scripts.js")
+    script(src="/js/script-modal.js")
+    script(src="/js/mostrar-section.js")
 
     //- footer(class="mx-auto mt-32 w-full max-w-container px-4 sm:px-6 lg:px-8")
     //-     div(class="border-t border-slate-900/5 py-10 text-center")

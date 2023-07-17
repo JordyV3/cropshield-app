@@ -1,29 +1,18 @@
-
 div(class="bg-white shadow rounded-lg")
     div(class="group relative")
-        div(class="bg-white aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80")
-            img(class="h-full w-full rounded-md object-cover" src=`/uploads/${analisis.imagen}` alt=` imagen cultivo ${analisis.titulo}`)
-    div(class="p-5 space-y-5")
+        div(class="bg-white aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none  lg:h-80")
+            //- img(class="h-full w-full rounded-md object-cover" src=`/uploads/${analisis.imagen}` alt=`Imagen cultivo ${analisis.titulo}, por motivos de espacio no todas las imagenes se aguardan`)
+            a(href=`/analisis/${analisis.id}`) 
+                img(class="h-full w-full rounded-md object-cover hover:scale-110 transition duration-500 cursor-pointer" src=`${analisis.imagen}` alt=`Imagen cultivo ${analisis.titulo}, por motivos de espacio no todas las imagenes se aguardan`)
+    div(class="p-5 ")
         h2(class="font-medium text-center")= analisis.titulo
-        p(class="text-sm text-gray-600") Cultivo: 
+        p(class="text-sm text-gray-600 mt-6") Cultivo: 
             span(class="text-sm font-semibold leading-6 text-gray-900")= analisis.cultivo.nombre
-        p(class="text-sm text-gray-600") Salud de la planta: 
+        p(class="text-sm text-gray-600 mt-2") Salud de la planta: 
             span(class="text-sm font-semibold leading-6 text-gray-900")= analisis.prediccion
-        p(class="text-sm text-gray-600") Edad: 
+        p(class="text-sm text-gray-600 mt-2") Edad: 
             span(class="text-sm font-semibold leading-6 text-gray-900")= analisis.edad
 
 
-        a(href=`/analisis/${analisis.id}` class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white w-full text-center hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 block font-bold text-white p-2 uppercase rounded") Ver Analisis
+        a(href=`/analisis/${analisis.id}` class="mt-6 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white w-full text-center hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 block font-bold text-white p-2 uppercase rounded") Ver Analisis
 
-//- div(class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8")
-    div(class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8")
-        div(class="bg-white shadow rounded-lg")
-            div(class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80")
-                img(class="object-cover h-72 w-full" src=`/uploads/${analisis.imagen}` alt=` imagen cultivo ${analisis.titulo}`)
-            div(class="mt-4 flex justify-between")
-                div
-                    h3(class="text-sm text-gray-700")
-                    <a href="#">
-                        <span aria-hidden="true" class="absolute inset-0"></span> Basic Tee
-                    </a>
-                p(class="mt-1 text-sm text-gray-500") 34

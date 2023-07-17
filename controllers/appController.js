@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize'
-import { Cultivo, Categoria, Analisis } from '../models/index.js'
+import { Cultivo, Categoria, Analisis , Usuario} from '../models/index.js'
+import { esAgricultor, formatearFecha } from '../helpers/index.js'
 
 const inicio = async (req, res) => {
 
@@ -57,7 +58,7 @@ const categoria = async (req, res) => {
         return res.redirect('/404')
     }
 
-    const analisis = await Analysis.findAll({
+    const analisis = await Analisis.findAll({
         where: {
             categoriaId: id
         },
@@ -84,7 +85,31 @@ const noEncontrado = (req, res) => {
 const verPerfil = (req, res) => {
     res.render('mi-perfil', {
         pagina: 'Mi perfil',
-        csrfToken : req.csrfToken()
+        csrfToken: req.csrfToken(),
+        usuario: req.usuario,
+        formatearFecha,
+        esVendedor: esAgricultor(req.usuario?.id)
+    })
+}
+
+const controlPlagas = (req, res) => {
+    res.render('control-plagas', {
+        pagina: 'Control de Plagas',
+        csrfToken: req.csrfToken(),
+    })
+}
+
+const graficos = (req, res) => {
+    res.render('graficos', {
+        pagina: 'Graficos',
+        csrfToken: req.csrfToken(),
+    })
+}
+
+const tiempoReal = (req, res) => {
+    res.render('analisis-tiempo-real', {
+        pagina: 'Analisis en tiempo real',
+        // csrfToken: req.csrfToken(),
     })
 }
 
@@ -120,5 +145,8 @@ export {
     categoria,
     noEncontrado,
     buscador,
-    verPerfil
+    verPerfil,
+    controlPlagas,
+    tiempoReal,
+    graficos
 }
