@@ -43,7 +43,7 @@ imageUploader.addEventListener('change', function() {
 
 
 // const API_URL = `http://localhost:8080/predict`;
-const API_URL = `http://165.232.139.195/predict`;
+const API_URL = `https://165.232.139.195/predict`;
 
 imageUploader.addEventListener('change', async (e) => {
     const file = e.target.files[0];
