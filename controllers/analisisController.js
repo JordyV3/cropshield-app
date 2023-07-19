@@ -71,13 +71,18 @@ const publico = async (req, res) => {
     }
 
     try {
+        const { id } = req.usuario
         const limit = 15
         const offset = ((paginaActual * limit) - limit)
 
         const [analisis, total] = await Promise.all([
             Analisis.findAll({
+                order: [['createdAt', 'DESC']],
                 limit,
                 offset,
+                where: {
+                    usuarioId: id
+                },
                 include: [
                     { model: Categoria, as: 'categoria' },
                     { model: Cultivo, as: 'cultivo' },
@@ -86,20 +91,37 @@ const publico = async (req, res) => {
             }),
         ])
 
-        const [analisisCt] = await Promise.all([
-            Analisis.count()
+        const [analisisCt,] = await Promise.all([
+            Analisis.count({
+                where: {
+                    usuarioId: id
+                },
+            })
         ])
 
         const [analisisPrediccionSana] = await Promise.all([
-            Analisis.count({ where: {prediccion: 'Planta Saludable'}})
+            Analisis.count({ 
+                where: {
+                    prediccion: 'Planta Saludable',
+                    usuarioId: id,
+                }
+            })
         ]);
 
         const [analisisPrediccionEnfermo] = await Promise.all([
-            Analisis.count({ where: {prediccion: 'Planta Enferma Trips'}})
+            Analisis.count({ 
+                where: {
+                    prediccion: 'Planta Enferma Trips',
+                    usuarioId: id,
+                }
+            })
         ]);
 
         const [promedioC] = await Promise.all([
-            Analisis.aggregate('confianza', 'avg', { 
+            Analisis.aggregate('confianza', 'avg',{
+                where: {
+                    usuarioId: id
+                }
             })
         ]);
 
@@ -138,6 +160,25 @@ const publico = async (req, res) => {
     }
 }
 
+const graficos = (req, res) => {
+    res.render('analisis/graficos', {
+        pagina: 'Graficos',
+        csrfToken: req.csrfToken(),
+        usuario: req.usuario,
+        formatearFecha,
+        esVendedor: esAgricultor(req.usuario?.id)
+    })
+}
+
+const miPerfil = async(req, res) =>{
+    res.render('analisis/perfil', {
+        pagina: 'Mi perfil',
+        csrfToken: req.csrfToken(),
+        usuario: req.usuario,
+        formatearFecha,
+        esVendedor: esAgricultor(req.usuario?.id)
+    });
+}
 
 const crear = async (req, res) => {
     const [categorias, cultivos] = await Promise.all([
@@ -307,7 +348,7 @@ const eliminar = async (req, res) => {
         return res.redirect('/mis-analisis')
     }
 
-    await unlink(`public/uploads/${analisis.imagen}`)
+    await unlink(`${analisis.imagen}`)
     console.log(`Se eliminó la imagen ${analisis.imagen}`)
 
     await analisis.destroy()
@@ -436,8 +477,7 @@ export {
     admin,
     crear,
     guardar,
-    // agregarImagen,
-    // almacenarImagen,
+    graficos,
     editar,
     guardarCambios,
     eliminar,
@@ -446,4 +486,5 @@ export {
     enviarMensaje,
     verMensajes,
     publico,
+    miPerfil,
 }

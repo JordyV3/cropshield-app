@@ -12,8 +12,6 @@ Analisis.hasMany(Mensaje, { foreignKey: 'analisisId'} )
 Mensaje.belongsTo(Analisis, { foreignKey: 'analisisId'})
 Mensaje.belongsTo(Usuario, { foreignKey: 'usuarioId'})
 
-
-
 export {
     Analisis,
     Cultivo,

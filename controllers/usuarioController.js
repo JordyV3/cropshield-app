@@ -62,7 +62,7 @@ const autenticar = async (req, res) => {
 }
 
 const cerrarSesion = (req, res) => {
-    return res.clearCookie('_token').status(200).redirect('/auth/login')
+    return res.clearCookie('_token').status(200).redirect('/')
 }
 
 const formularioRegistro = (req, res) => {
@@ -243,7 +243,6 @@ const nuevoPassword = async (req, res) => {
         pagina: 'Password Reestablecido',
         mensaje: 'El Password se guardó correctamente'
     })
-
 }
 
 export {

@@ -9,7 +9,6 @@ var facingMode = "user";
 var modelo = null;
 
 (async () => {
-  console.log("Cargando modelo...");
   modelo = await tf.loadLayersModel("/model/model.json");
   console.log("Modelo cargado");
 })();
@@ -107,9 +106,9 @@ function predecir() {
 
     var respuesta;
     if (resultado <= .5) {
-      respuesta = "TRIPS";
+      respuesta = "PLANTA ENFERMA DE TRIPS";
     } else {
-      respuesta = "SANA";
+      respuesta = "PLANTA SALUDABLE";
     }
     document.getElementById("resultado").innerHTML = respuesta;
 

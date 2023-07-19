@@ -62,7 +62,7 @@ block contenido
                     </div>
                 </div>
                 <div class="grid gap-4">
-                    <div class="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
+                    <div class="block p-4 focus:outline-none focus:ring">
                         <div id="mapa-inicio" class="h-[400px] mt-5"></div>
                         <h2 class="mt-2 font-bold">Monitoreo</h2>
                         <p class="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600"> Lugares donde se realizaron analisis. </p>
@@ -93,8 +93,9 @@ block contenido
 
 
 block scripts
-    script(src="/js/scripts.js")
+    //- script(src="/js/scripts.js")
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
     script(src="/js/mapaInicio.js")
-    script(src="/js/analisisImage.js")
-    script(src="https://cdn.tailwindcss.com")
+    script(src="/js/scriptApp.js") 
+    //- script(src="/js/analisisImage.js")
+    //- script(src="https://cdn.tailwindcss.com")

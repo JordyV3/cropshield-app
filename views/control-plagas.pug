@@ -1,8 +1,6 @@
 extends ./layout/app
 
 block styles
-    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
-    link(rel="stylesheet", href="/css/styles.css")
 
 block contenido
 
@@ -22,12 +20,14 @@ block contenido
                             pues causan graves daños al alimentarse, en su fase larval, de los tejidos de las plantas, o
                             como vectores transmisores de numerosos virus, principalmente del género Tospovirus, como el
                             Virus del Bronceado del Tomate (TSWV) o el Virus del Mosaico del Tabaco (TMV). </p>
-
-                        <a href="#" class="mt-8 inline-block rounded bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-yellow-400">Revisa sus tultivos</a>
+                        <div class="text-center">
+                            <a href="/analisis-tiempo-real" class="text-center mt-8 inline-block rounded bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-yellow-400">Revisa sus tultivos</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
         <section>
             <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
                 <h2 class="text-3xl font-bold sm:text-2xl text-center mb-10">Ciclo biológico de los trips</h2>
@@ -169,8 +169,9 @@ block contenido
                 </div>
             </div>
         </section>
+
         <section>
-            <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
+            <div class="mx-auto max-w-screen-xl px-4 sm:px-6  lg:px-8">
                 <div>
                     <div class="px-4 sm:px-0">
                         <h3 class="text-base font-semibold leading-7 text-gray-900">Claves para un control de trips eficiente </h3>
@@ -294,7 +295,7 @@ block contenido
                                 <dt class="text-sm font-medium leading-6 text-gray-900">✅ Control quimico</dt>
                                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Para mantener lo más posible la eficacia de los insecticidas, se debe hacer un MIR: manejo integrado de la resistencia.
                                     <ul role="list" class="list-disc space-y-2 pl-4 text-sm mt-4">
-                                        <li class="text-gray-400"><span class="text--600">Aplicar únicamente cuando se llegue al umbral económico detectado en los monitoreos.</span></li>
+                                        <li class="text-gray-400"><span class="text-gray-600">Aplicar únicamente cuando se llegue al umbral económico detectado en los monitoreos.</span></li>
                                         <li class="text-gray-400"><span class="text-gray-600">Rotar los modos de acción de los insecticidas en cada aplicación.</span></li>
                                         <li class="text-gray-400"><span class="text-gray-600">Usar los insecticidas en rotación con agentes entomopatógenos como Beauveria bassiana e insecticidas biorracionales como el extracto de Neem y.</span></li>
                                         <li class="text-gray-400"><span class="text-gray-600">Usar insecticidas compatibles con el control biológico (ácaros depredadores, especialmente)..</span></li>
@@ -328,19 +329,18 @@ block contenido
                 </div>
             </div>
         </section>
-
-        <section>
-            <div  class="text-center mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
-                <iframe style=" margin:0px auto; width: 1200px; height: 600px;" src="https://control-de-plagas.super.site/" frameborder="0"></iframe>
-            </div>
-        </section>
-
     </div>
+
+    <div class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8">
+        <div class="border-t border-slate-900/5 py-10 text-center">
+            <img class="h-8 w-auto" src="/img/icon.svg" style="margin: 0 auto;" alt="icono-cropshield">
+            <p class="mt-5 text-center text-sm leading-6 text-slate-500">© 2023 Jordy Vega. All rights reserved.</p>
+        </div>
+    </div>  
 
 
 block scripts
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
-    script(src="/js/mostrarMapa.js")
-    script(src="/js/scripts.js")
-    script(src="/js/script-modal.js")
-    script(src="/js/mostrar-section.js")
+    script(src="/js/scriptApp.js")
+    script(src="/js/controlPlagas.js") 
+    script(src="/js/modalScripts.js")

@@ -10,13 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/camara.js":
-/*!**************************!*\
-  !*** ./src/js/camara1.js ***!
-  \**************************/
+/***/ "./src/js/scriptApp.js":
+/*!*****************************!*\
+  !*** ./src/js/scriptApp.js ***!
+  \*****************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n\n\n//capturar video ó imagen\nconst video = document.querySelector(\".video\");\nconst canvas = document.querySelector(\".canvas\");\n\n//tomar foto\nconst button = document.querySelector(\".start-btn\");\n\n//mostrar foto\nconst photo = document.querySelector(\".photo\");\n\n//constrains\n/*\nAquí enviamos las caracteristicas del video y\naudio que solicitamos\n*/\n\nconst constraints = {\n    video: { width: 420, height: 340 },\n    audio: false,\n};\n\n\n//acceso a la webcam\n/*\nAquí recibimos la respuesta del navegador, es una promesa\n */\nconst getVideo = async () => {\n    try {\n        const stream = await navigator.mediaDevices.getUserMedia(constraints);\n        handleSucces(stream);\n        console.log(stream);\n    } catch (error) {\n        console.log(error);\n    }\n};\n\n//3. -----------> si la promesa tiene exito\nconst handleSucces = (stream) => {\n    video.srcObject = stream;\n    video.play();\n};\n\n//4.------------>Llamada a la función get\ngetVideo();\n\n//4. ----------> Button y foto\nbutton.addEventListener(\"click\", () => {\n    let context = canvas.getContext(\"2d\");\n    context.drawImage(video, 0, 0, 420, 340);\n    let data = canvas.toDataURL(\"image/png\");\n    photo.setAttribute(\"src\", data);\n});\n\n//# sourceURL=webpack://cropshield-app/./src/js/camara1.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nconst botonClose = document.getElementById(\"botonClose\");\nconst miMenuMovil = document.getElementById('miMenuMovil');\nconst menuHam = document.getElementById('menuHam');\n\nmenuHam.addEventListener(\"click\", function(){\n    if(miMenuMovil.style.display === \"none\"){\n        miMenuMovil.style.display=\"block\"\n    }\n})\n\nbotonClose.addEventListener(\"click\", function(){\n    if(miMenuMovil.className===\"lg:hidden\"){\n        miMenuMovil.style.display = \"none\"\n    }\n})\n\n// const secctionControl = document.getElementById('section-control-plagas');\n// const prediccion = document.getElementById('prediccion');\n\n// if(prediccion.textContent === \"Planta Enferma Trips\") {\n//     secctionControl.style.display = 'block'\n// } else{\n//     secctionControl.style.display = 'none';\n// }\n\n//# sourceURL=webpack://cropshield-app/./src/js/scriptApp.js?");
 
 /***/ })
 
@@ -43,7 +43,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n\n\n//capturar video ó image
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/js/camara.js"](0, __webpack_exports__, __webpack_require__);
+/******/ 	__webpack_modules__["./src/js/scriptApp.js"](0, __webpack_exports__, __webpack_require__);
 /******/ 	
 /******/ })()
 ;

@@ -33,7 +33,6 @@ const Usuario = db.define('usuarios', {
     }
 })
 
-// Métodos Personalizados
 Usuario.prototype.verificarPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }

@@ -50,12 +50,12 @@
             })
             .addTo(mapa)
             .bindPopup(`
-                <p class="mr-2 text-sm font-medium text-indigo-800">${analisis.categoria.nombre}</p>
-                <h2 class="my-5 text-center sm:text-2xl text-lg font-semibold leading-7 text-gray-900 my-50">${analisis?.titulo}</h2>
-                <img style="height: 200px;" class="h-full w-full rounded-md object-cover" src="/uploads/${analisis?.imagen}" alt="Imagen de la propiedad ${analisis.titulo}">
-                <p class="mt-4 text-gray-600">${analisis.cultivo.nombre}</p>
-
-                <a href="/analisis/${analisis.id}" style="color: white;" class="text-withe rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white w-full text-center hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 block font-bold text-white p-2 uppercase rounded">Ver Analisis</a>
+            <div class="max-w-sm bg-white text-center rounded-lg  dark:bg-gray-800 dark:border-gray-700">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">${analisis?.titulo}</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">${analisis?.descripcion}</p>
+                <img style="height: 150px;" class="h-full w-full rounded-md object-cover" src="${analisis?.imagen}" alt="Imagen de la propiedad ${analisis.titulo}">
+                <a href="/analisis/${analisis.id}" style="color: white;" class="mt-5 text-withe rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white w-full text-center hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 block font-bold text-white p-2 uppercase rounded">Ver Analisis</a>
+            </div>
             `)
             markers.addLayer(marker)
         })

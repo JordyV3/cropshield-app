@@ -1,7 +1,6 @@
 import express from "express";
 import { body } from 'express-validator';
-// import { admin, crear, publico, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, cambiarEstado, mostrarAnalisis, enviarMensaje, verMensajes } from '../controllers/analisisController.js'
-import { admin, publico, crear, guardar, editar, guardarCambios, eliminar, cambiarEstado, mostrarAnalisis, enviarMensaje, verMensajes } from '../controllers/analisisController.js'
+import { admin, publico, graficos, miPerfil, crear, guardar, editar, guardarCambios, eliminar, cambiarEstado, mostrarAnalisis, enviarMensaje, verMensajes } from '../controllers/analisisController.js'
 
 import protegerRuta from "../middleware/protegerRuta.js"
 import upload from '../middleware/subirImagen.js'
@@ -9,7 +8,9 @@ import identificarUsuario from "../middleware/identificarUsuario.js"
 
 const router = express.Router()
 
-router.get('/analisis', publico);
+router.get('/graficos', protegerRuta, graficos);
+router.get('/mi-perfil', protegerRuta, miPerfil);
+router.get('/analisis',protegerRuta, publico);
 router.get('/mis-analisis', protegerRuta, admin);
 router.get('/analisis/crear', protegerRuta, crear);
 router.post('/analisis/crear', protegerRuta,
@@ -22,22 +23,9 @@ router.post('/analisis/crear', protegerRuta,
     body('temperatura').notEmpty().withMessage('Ingrese la temperatura del clima'),
     body('edad').notEmpty().withMessage('La edad no puede ir vacia'),
     body('lat').notEmpty().withMessage('Ubica tu cultivo en el Mapa'),
-    // body('img-uploader').notEmpty().withMessage('Sube una imagen'),
     upload.single('imagen'),
-    // agregarImagen,
     guardar
 );
-
-// router.get('/analisis/agregar-imagen/:id', 
-//     protegerRuta,
-//     agregarImagen
-// )
-
-// router.post('/analsis/agregar-imagen/:id',
-//     protegerRuta,
-//     upload.single('imagen'),
-//     almacenarImagen
-// )
 
 router.get('/analisis/editar/:id',
     protegerRuta,
@@ -72,11 +60,6 @@ router.get('/analisis/:id',
     identificarUsuario,
     mostrarAnalisis
 );
-
-// router.get('/analisis/',
-//     // identificarUsuario,
-//     mostrarAnalisis
-// );
 
 router.post('/analisis/:id',
     identificarUsuario,

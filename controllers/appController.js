@@ -45,7 +45,6 @@ const inicio = async (req, res) => {
         categorias,
         cultivos,
         chile,
-        // departamentos,
         csrfToken: req.csrfToken()
     })
 }
@@ -82,16 +81,6 @@ const noEncontrado = (req, res) => {
     })
 }
 
-const verPerfil = (req, res) => {
-    res.render('mi-perfil', {
-        pagina: 'Mi perfil',
-        csrfToken: req.csrfToken(),
-        usuario: req.usuario,
-        formatearFecha,
-        esVendedor: esAgricultor(req.usuario?.id)
-    })
-}
-
 const controlPlagas = (req, res) => {
     res.render('control-plagas', {
         pagina: 'Control de Plagas',
@@ -99,17 +88,9 @@ const controlPlagas = (req, res) => {
     })
 }
 
-const graficos = (req, res) => {
-    res.render('graficos', {
-        pagina: 'Graficos',
-        csrfToken: req.csrfToken(),
-    })
-}
-
 const tiempoReal = (req, res) => {
     res.render('analisis-tiempo-real', {
         pagina: 'Analisis en tiempo real',
-        // csrfToken: req.csrfToken(),
     })
 }
 
@@ -145,8 +126,6 @@ export {
     categoria,
     noEncontrado,
     buscador,
-    verPerfil,
     controlPlagas,
     tiempoReal,
-    graficos
 }

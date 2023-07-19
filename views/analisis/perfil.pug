@@ -1,0 +1,53 @@
+extends ../layout/admin
+
+block styles
+    link(rel="stylesheet", href="/css/perfil.css")
+    link(rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous")
+    link(rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css")
+
+block contenido 
+    <div class="mx-auto mt-10 max-w-2xl h-96 px-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-4 lg:px-4 lg:pb-24">
+        <div class="lg:col-span-2">
+            <div class="lg:row-span-2 lg:mt-0">
+                <div class="px-5 py-5 space-y-5 mb-5">
+                    <h1 class="text-2xl mt-10 font-bold tracking-tight text-gray-900 sm:text-3xl text-center">Información Personal</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 mt-10">
+                        if !esAgricultor
+                            <div class="mt-10 text-center">
+                                <h2 class="text-sm font-medium text-gray-900">Nombre</h2>
+                                <div class="mt-2 space-y-6">
+                                    p( class="text-sm text-gray-600")= usuario.nombre
+                                </div>
+                            </div>
+                            <div class="mt-10 text-center">
+                                <h2 class="text-sm font-medium text-gray-900">Correo</h2>
+                                <div class="mt-2 space-y-6">
+                                    p(class="text-sm text-gray-600")= usuario.email
+                                </div>
+                            </div>
+                        else 
+                            div(class="flex flex-col items-center justify-center gap-2")
+                                p(class="text-center") No se encontraron datos
+                                a(class="text-emerald-600" href="/auth/registro") debes crear una cuenta
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8">
+        <div class="border-t border-slate-900/5 py-10 text-center">
+            <img class="h-8 w-auto" src="/img/icon.svg" style="margin: 0 auto;" alt="icono-cropshield">
+            <p class="mt-5 text-center text-sm leading-6 text-slate-500">© 2023 Jordy Vega. All rights reserved.</p>
+        </div>
+    </div>
+
+block scripts
+    script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+    script(src="/js/scriptAdmin.js")
+    //- script(src="/js/mostrarMapa.js")
+    //- script(src="/js/scripts.js")
+    //- script(src="/js/script-modal.js")
+    //- script(src="/js/mostrar-section.js")
+            
