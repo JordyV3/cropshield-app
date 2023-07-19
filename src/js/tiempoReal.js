@@ -5,10 +5,12 @@ var otrocanvas = document.getElementById("otrocanvas");
 var ctx = canvas.getContext("2d");
 var currentStream = null;
 var facingMode = "user";
+var cambiarCamara = document.getElementById('cambiar-camara');
 
 var modelo = null;
 
 (async () => {
+  console.log("Cargando modelo...");
   modelo = await tf.loadLayersModel("/model/model.json");
   console.log("Modelo cargado");
 })();
@@ -43,7 +45,7 @@ function mostrarCamara() {
   }
 }
 
-function cambiarCamara() {
+cambiarCamara.addEventListener("click", function() {
   if (currentStream) {
     currentStream.getTracks().forEach(track => {
       track.stop();
@@ -68,7 +70,7 @@ function cambiarCamara() {
     .catch(function (err) {
       console.log("Oops, hubo un error", err);
     })
-}
+})
 
 function procesarCamara() {
   ctx.drawImage(video, 0, 0, tamano, tamano, 0, 0, tamano, tamano);
@@ -79,6 +81,7 @@ function predecir() {
   if (modelo != null) {
     resample_single(canvas, 100, 100, otrocanvas);
 
+    //Hacer la predicción
     var ctx2 = otrocanvas.getContext("2d");
     var imgData = ctx2.getImageData(0, 0, 100, 100);
 
@@ -117,6 +120,15 @@ function predecir() {
   setTimeout(predecir, 150);
 }
 
+/**
+   * Hermite resize - fast image resize/resample using Hermite filter. 1 cpu version!
+   * 
+   * @param {HtmlElement} canvas
+   * @param {int} width
+   * @param {int} height
+   * @param {boolean} resize_canvas if true, canvas will be resized. Optional.
+   * Cambiado por RT, resize canvas ahora es donde se pone el chiqitillllllo
+   */
 function resample_single(canvas, width, height, resize_canvas) {
   var width_source = canvas.width;
   var height_source = canvas.height;
@@ -158,15 +170,16 @@ function resample_single(canvas, width, height, resize_canvas) {
           var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
           var w = Math.sqrt(w0 + dx * dx);
           if (w >= 1) {
+            //pixel too far
             continue;
           }
-
+          //hermite filter
           weight = 2 * w * w * w - 3 * w * w + 1;
           var pos_x = 4 * (xx + yy * width_source);
-
+          //alpha
           gx_a += weight * data[pos_x + 3];
           weights_alpha += weight;
-
+          //colors
           if (data[pos_x + 3] < 255)
             weight = weight * data[pos_x + 3] / 250;
           gx_r += weight * data[pos_x];
@@ -181,6 +194,7 @@ function resample_single(canvas, width, height, resize_canvas) {
       data2[x2 + 3] = gx_a / weights_alpha;
     }
   }
+
 
   ctx2.putImageData(img2, 0, 0);
 }
