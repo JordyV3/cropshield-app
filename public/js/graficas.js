@@ -1,4 +1,4 @@
-const URL_ENDPOINT_1 = 'http://localhost:4001/api/analisis-semana/';
+const URL_ENDPOINT_1 = 'https://rest-api-cropshield-production.up.railway.app/api/analisis-semana/';
 
 const user = document.getElementById('usuarioId').textContent;
 
@@ -68,7 +68,7 @@ async function getGrafico1() {
     });
 }
 
-const URL_ENDPOINT_2 = 'http://localhost:4001/api/analisis-clase/';
+const URL_ENDPOINT_2 = 'https://rest-api-cropshield-production.up.railway.app/api/analisis-clase/';
 getGrafico2();
 
 async function getGrafico2() {
@@ -117,7 +117,7 @@ async function getGrafico2() {
     });
 }
 
-const URL_ENDPOINT_3 = 'http://localhost:4001/api/analisis-semana/';
+const URL_ENDPOINT_3 = 'https://rest-api-cropshield-production.up.railway.app/api/analisis-semana/';
 getGrafico3();
 
 async function getGrafico3() {
@@ -158,7 +158,7 @@ async function getGrafico3() {
     });
 }
 
-const URL_ENDPOINT_4 = "http://localhost:4001/api/analisis-combo/"
+const URL_ENDPOINT_4 = "https://rest-api-cropshield-production.up.railway.app/api/analisis-combo/"
 
 getGrafico4();
 
